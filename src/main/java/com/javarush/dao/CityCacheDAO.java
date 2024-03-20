@@ -1,17 +1,16 @@
 package com.javarush.dao;
 
-import com.javarush.domain.City;
 import redis.clients.jedis.Jedis;
 
 import static com.javarush.config.Config.REDIS_PORT;
 import static com.javarush.config.Config.REDIS_URL;
 
-public class CityCache {
-    private static final CityCache INSTANCE = new CityCache();
+public class CityCacheDAO {
+    private static final CityCacheDAO INSTANCE = new CityCacheDAO();
 
     private final Jedis client = new Jedis(REDIS_URL, REDIS_PORT);
 
-    private CityCache() {
+    private CityCacheDAO() {
     }
 
     public void add(String key, String value) {
@@ -21,7 +20,7 @@ public class CityCache {
         return client.get(key);
     }
 
-    public static CityCache getInstance() {
+    public static CityCacheDAO getInstance() {
         return INSTANCE;
     }
 }

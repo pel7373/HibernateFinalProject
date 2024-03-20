@@ -21,27 +21,17 @@ import java.util.stream.Collectors;
 import static java.util.Objects.nonNull;
 
 public class Main {
-    private final SessionFactory sessionFactory;
-    private final RedisClient redisClient;
-    private final ObjectMapper mapper;
-    private final CityDAO cityDAO;
-    private final CountryDAO countryDAO;
 
     public Main() {
-        sessionFactory = SessionFactoryProvider.getSessionFactoryRelationalDb();
-        cityDAO = CityDAO.getInstance();
-        countryDAO = new CountryDAO(sessionFactory);
+        //        countryDAO = new CountryDAO(sessionFactory);
 
-        redisClient = prepareRedisClient();
-        mapper = new ObjectMapper();
     }
 
     public static void main(String[] args) {
-//        Jedis jedis = new Jedis("localhost", 6379);
-//        String john = jedis.get("username");
-//        System.out.println(john);
+
+        /*
         Main main = new Main();
-        List<City> allCities = main.fetchData(main);
+        List<City> allCities = null;// =  main.fetchData(main);
         List<CityCountry> preparedData = main.transformData(allCities);
         main.pushToRedis(preparedData);
 
@@ -64,25 +54,11 @@ public class Main {
         System.out.printf("%s:\t%d ms\n", "MySQL", (stopMysql - startMysql));
 
         main.shutdown();
+
+         */
     }
 
-
-    private RedisClient prepareRedisClient() {
-        RedisClient redisClient = RedisClient.create(RedisURI.create("localhost", 6379));
-        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
-            System.out.println("\nConnected to Redis\n");
-        }
-        return redisClient;
-    }
-    private void shutdown() {
-        if (nonNull(sessionFactory)) {
-            sessionFactory.close();
-        }
-        if (nonNull(redisClient)) {
-            redisClient.shutdown();
-        }
-    }
-
+/*
     private void pushToRedis(List<CityCountry> data) {
         try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
             RedisStringCommands<String, String> sync = connection.sync();
@@ -109,10 +85,6 @@ public class Main {
                 }
             }
         }
-    }
-
-    private List<City> fetchData(Main main) {
-
     }
 
     private List<CityCountry> transformData(List<City> cities) {
@@ -156,4 +128,6 @@ public class Main {
             session.getTransaction().commit();
         }
     }
+
+ */
 }
