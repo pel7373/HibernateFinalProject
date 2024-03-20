@@ -1,18 +1,9 @@
 package com.javarush;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.javarush.dao.*;
 import com.javarush.domain.*;
 import com.javarush.redis.CityCountry;
 import com.javarush.redis.Language;
-import com.javarush.config.SessionFactoryProvider;
-import io.lettuce.core.RedisClient;
-import io.lettuce.core.RedisURI;
-import io.lettuce.core.api.sync.RedisStringCommands;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import io.lettuce.core.api.StatefulRedisConnection;
+import com.javarush.service.CityService;
 
 import java.util.List;
 import java.util.Set;
@@ -21,13 +12,23 @@ import java.util.stream.Collectors;
 import static java.util.Objects.nonNull;
 
 public class Main {
-
     public Main() {
-        //        countryDAO = new CountryDAO(sessionFactory);
-
     }
 
     public static void main(String[] args) {
+        CityService cityService = new CityService();
+        City city = cityService.getById(3);
+        city = cityService.getById(3);
+        city = cityService.getById(3);
+        city = cityService.getById(3);
+        city = cityService.getById(3);
+        city = cityService.getById(3);
+        //city = cityService.getById(3);
+        //city = cityService.getById(3);
+        //city = cityService.getById(3);
+        //System.out.println(city);
+        //System.out.println(city.getCountry());
+        //System.out.println(city.getCountry().getLanguages());
 
         /*
         Main main = new Main();

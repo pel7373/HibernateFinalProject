@@ -9,7 +9,7 @@ import org.hibernate.query.Query;
 import java.util.List;
 import java.util.Optional;
 
-public class CityDAO implements CrudDAO<City, Long> {
+public class CityDAO implements CrudDAO<City, Integer> {
     private final SessionFactory sessionFactory = SessionFactoryProvider.getSessionFactoryRelationalDb();
     private static final CityDAO INSTANCE = new CityDAO();
 
@@ -20,37 +20,19 @@ public class CityDAO implements CrudDAO<City, Long> {
     public List<City> findAll() {
         Session session = sessionFactory.openSession();
         Query query = session.createQuery("from City");
+        session.close();
         return query.getResultList();
-        /*
-        try (Session session = sessionFactory.getCurrentSession()) {
-            List<City> allCities = new ArrayList<>();
-            session.beginTransaction();
-
-            List<Country> countries = countryDAO.getAll();
-            int totalCount = cityDAO.getTotalCount();
-            int step = 500;
-            for (int i = 0; i < totalCount; i += step) {
-                Query<City> query = sessionFactory.getCurrentSession().createQuery("select c from City c", City.class);
-                query.setFirstResult(i);
-                query.setMaxResults(step);
-                allCities.addAll(query.list());
-            }
-            List<CityCountry> preparedData = main.transformData(allCities);
-            session.getTransaction().commit();
-            return allCities;
-        }
-        */
     }
 
     @Override
-    public Optional<City> findById(Long id) {
+    public Optional<City> findById(Integer id) {
         Query<City> query = sessionFactory.openSession().createQuery("from City c join fetch c.country where c.id = :ID");
         query.setParameter("ID", id);
         return Optional.ofNullable(query.getSingleResult());
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
 
     }
 

@@ -17,8 +17,8 @@ public class CityCacheService {
     private final CityCacheDAO cityCacheDAO = CityCacheDAO.getInstance();
     private final ObjectMapper mapper = new ObjectMapper();
 
-    private Map<String, Long> mapperCityNameToId = new HashMap<>();
-    private Map<Long, Integer> countRequestsCities = new HashMap<>();
+    private Map<String, Integer> mapperCityNameToId = new HashMap<>();
+    private Map<Integer, Integer> countRequestsCities = new HashMap<>();
 
     private CityCacheService() {
     }
@@ -26,16 +26,18 @@ public class CityCacheService {
     public static CityCacheService getInstance() {
         return INSTANCE;
     }
+
     public void cacheAddHandlerList(List<City> listCity) {
         listCity.forEach(this::cacheAddHandler);
     }
 
     public void cacheAddHandler(City city) {
         if(countRequestsCities.containsKey(city.getId())) {
-            countRequestsCities.put(city.getId(), countRequestsCities.get(city.getId() + 1));
+            countRequestsCities.put(city.getId(), countRequestsCities.get(city.getId()) + 1);
             if(countRequestsCities.get(city.getId()) >= NUMBER_OF_REQUEST_TO_PUT_TO_CACHE) {
                 try {
                     cityCacheDAO.add(String.valueOf(city.getId()), mapper.writeValueAsString(city));
+                    System.out.println("!!! City with id: " + city.getId() + " was put to cache from cacheAddHandler" );
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
@@ -43,31 +45,43 @@ public class CityCacheService {
         } else {
             countRequestsCities.put(city.getId(), 1);
         }
+        System.out.println("!!! City with id: " + city.getId() + " was requested " + countRequestsCities.get(city.getId()) + " times");
     }
 
-    public void cacheDeleteById(Long id) {
+    public void cacheDeleteById(Integer id) {
     }
     private City cacheGetByName(String name) {
         return null;
     }
 
-    public City cacheGetById(Long cityId) {
-        return null;
+    public City cacheGetById(Integer id) {
+        City city = null;
+        try {
+            city = mapper.readValue(String.valueOf(id), City.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            System.out.println("!!! Can't get City with id: " + id);
+        }
+        System.out.println("!!! get city by id: " + id + ":");
+        System.out.println(city);
+        return city;
     }
 
-    public boolean isExistInCache(String name) {
+    public boolean isGetFromCache(String name) {
         return false;
     }
 
-    public boolean isExistInCache(Long id) {
+    public boolean isGetFromCache(Integer id) {
+        System.out.println("!!! CityId: " + id + ": isGetFromCache: "
+        + (countRequestsCities.containsKey(id)
+                && countRequestsCities.get(id) >= NUMBER_OF_REQUEST_TO_PUT_TO_CACHE));
+        if(countRequestsCities.containsKey(id)
+            && countRequestsCities.get(id) >= NUMBER_OF_REQUEST_TO_PUT_TO_CACHE) {
+            return true;
+        }
         return false;
     }
 
-    /*try {
-        mapper.readValue(value, CityCountry.class);
-    } catch (
-    JsonProcessingException e) {
-        e.printStackTrace();
-    }*/
+
 
 }

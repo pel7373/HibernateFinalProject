@@ -16,8 +16,8 @@ public class CityService {
         return listCity;
     }
 
-    public City getById(Long id) {
-        if (cityCacheService.isExistInCache(id)) {
+    public City getById(Integer id) {
+        if (cityCacheService.isGetFromCache(id)) {
             return cityCacheService.cacheGetById(id);
         }
 
@@ -27,7 +27,7 @@ public class CityService {
         return city;
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         getById(id);
         cityDAO.deleteById(id);
         cityCacheService.cacheDeleteById(id);

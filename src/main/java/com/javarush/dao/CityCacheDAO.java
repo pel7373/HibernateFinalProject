@@ -15,8 +15,10 @@ public class CityCacheDAO {
 
     public void add(String key, String value) {
         client.set(key, value);
+        System.out.println("### key: " + key + " was put to cache!");
     }
     public String get(String key) {
+        System.out.println("### key: " + key + " was get to cache!");
         return client.get(key);
     }
 

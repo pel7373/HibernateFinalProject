@@ -3,6 +3,7 @@ package com.javarush.domain;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -193,5 +194,28 @@ public class Country {
 
     public void setLanguages(Set<CountryLanguage> languages) {
         this.languages = languages;
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", alternativeCode='" + alternativeCode + '\'' +
+                ", name='" + name + '\'' +
+                ", continent=" + continent +
+                ", region='" + region + '\'' +
+                ", surfaceArea=" + surfaceArea +
+                ", independenceYear=" + independenceYear +
+                ", population=" + population +
+                ", lifeExpectancy=" + lifeExpectancy +
+                ", GNP=" + GNP +
+                ", GNPOId=" + GNPOId +
+                ", localName='" + localName + '\'' +
+                ", governmentForm='" + governmentForm + '\'' +
+                ", headOfState='" + headOfState + '\'' +
+                ", city=" + city +
+                //", languages=" + languages +
+                '}';
     }
 }
