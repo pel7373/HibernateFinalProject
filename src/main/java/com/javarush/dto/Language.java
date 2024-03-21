@@ -1,4 +1,4 @@
-package com.javarush.redis;
+package com.javarush.dto;
 
 import java.math.BigDecimal;
 

@@ -1,34 +1,21 @@
 package com.javarush;
 
+import com.javarush.controller.Controller;
+import com.javarush.controller.MyController;
 import com.javarush.domain.*;
-import com.javarush.redis.CityCountry;
-import com.javarush.redis.Language;
 import com.javarush.service.CityService;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import static java.util.Objects.nonNull;
+import com.javarush.view.*;
 
 public class Main {
     public Main() {
     }
 
     public static void main(String[] args) {
-        CityService cityService = new CityService();
-        City city = cityService.getById(3);
-        city = cityService.getById(3);
-        city = cityService.getById(3);
-        city = cityService.getById(3);
-        city = cityService.getById(3);
-        city = cityService.getById(3);
-        //city = cityService.getById(3);
-        //city = cityService.getById(3);
-        //city = cityService.getById(3);
-        //System.out.println(city);
-        //System.out.println(city.getCountry());
-        //System.out.println(city.getCountry().getLanguages());
+        String[] params = new String[7];
+        Controller controller = new MyController(params);
+        View view = new TestView(controller, params);
+        view.handler();
+
 
         /*
         Main main = new Main();
@@ -41,7 +28,7 @@ public class Main {
 
         //обираємо 10 випадкових id міст
         //оскільки ми не робили обробку невалідних ситуацій, використовуй id, які існують БД
-        List<Long> ids = List.of(3L, 2545L, 123L, 4L, 189L, 89L, 3458L, 1189L, 10L, 102L);
+        List<Integer> ids = List.of(3, 2545, 123, 4, 189, 89, 3458, 1189, 10, 102);
 
         long startRedis = System.currentTimeMillis();
         main.testRedisData(ids);
@@ -74,7 +61,7 @@ public class Main {
         }
     }
 
-    private void testRedisData(List<Long> ids) {
+    private void testRedisData(List<Integer> ids) {
         try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
             RedisStringCommands<String, String> sync = connection.sync();
             for (Long id : ids) {

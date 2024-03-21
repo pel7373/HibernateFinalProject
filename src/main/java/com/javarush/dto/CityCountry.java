@@ -1,6 +1,7 @@
-package com.javarush.redis;
+package com.javarush.dto;
 
 import com.javarush.domain.Continent;
+import com.javarush.dto.Language;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -124,5 +125,23 @@ public class CityCountry {
 
     public void setLanguages(Set<Language> languages) {
         this.languages = languages;
+    }
+
+    @Override
+    public String toString() {
+        return "CityCountry{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", district='" + district + '\'' +
+                ", population=" + population +
+                ", countryCode='" + countryCode + '\'' +
+                ", alternativeCountryCode='" + alternativeCountryCode + '\'' +
+                ", countryName='" + countryName + '\'' +
+                ", continent=" + continent +
+                ", countryRegion='" + countryRegion + '\'' +
+                ", countrySurfaceArea=" + countrySurfaceArea +
+                ", countryPopulation=" + countryPopulation +
+                ", languages=" + languages +
+                '}';
     }
 }
