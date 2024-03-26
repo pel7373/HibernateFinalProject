@@ -7,6 +7,7 @@ public enum Operation {
     CITY_SAVE  ("Save city"),
     CITY_UPDATE ("Update city"),
     CITY_DELETE_BY_ID ("Delete city by id"),
+    RUN_LIST_OF_OPERATIONS ("Run list of operations"),
 
     EXIT ("Exit the application");
 

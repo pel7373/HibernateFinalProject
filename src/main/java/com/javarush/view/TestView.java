@@ -1,7 +1,6 @@
 package com.javarush.view;
 
 import com.javarush.controller.Controller;
-import com.javarush.controller.Operation;
 
 import java.util.Scanner;
 
@@ -20,16 +19,6 @@ public class TestView implements View {
 
     @Override
     public void handler() {
-        params[1] = String.valueOf("3");
-        controller.handler(1);
-        controller.handler(1);
-        controller.handler(1);
-        controller.handler(1);
-        controller.handler(1);
-        controller.handler(1);
-        controller.handler(0);
-
-
         while(true) {
             this.printMenu();
             int choiceOperation = this.chooseOperation();
@@ -39,22 +28,141 @@ public class TestView implements View {
             } else if(choiceOperation == CITY_FIND_BY_ID.ordinal()) {
                 findCityById();
             } else if(choiceOperation == CITY_FIND_BY_NAME.ordinal()) {
-
+                findCityByName();
             } else if(choiceOperation == CITY_SAVE.ordinal()) {
-
+                saveCity();
             } else if(choiceOperation == CITY_UPDATE.ordinal()) {
-
+                updateCity();
             } else if(choiceOperation == CITY_DELETE_BY_ID.ordinal()) {
-
-            }  else if(choiceOperation == EXIT.ordinal()) {
+                deleteCityById();
+            } else if(choiceOperation == RUN_LIST_OF_OPERATIONS.ordinal()) {
+                runListOfOperations();
+            } else if(choiceOperation == EXIT.ordinal()) {
                 System.out.println("Good luck! It was a pleasure doing business with you! Thank you!");
                 return;
             }
             controller.handler(choiceOperation);
+            System.out.println(params[0]);
         }
     }
 
-    private int chooseOperation() {
+    private void findCityById() {
+        System.out.println("Please, enter city id: ");
+        params[1] = String.valueOf(enterNonNegativeNumber());
+        System.out.println(params[1]);
+    }
+
+    private void findCityByName() {
+        System.out.println("Please, enter city name: ");
+        params[1] = enterString();
+        System.out.println(params[1]);
+    }
+
+    private void saveCity() {
+        System.out.println("Please, enter city name: ");
+        params[1] = enterString();
+        System.out.println("Please, enter city population: ");
+        params[2] = String.valueOf(enterNonNegativeNumber());
+        System.out.println("Please, enter country id: ");
+        params[3] = String.valueOf(enterNonNegativeNumber());
+        System.out.printf("You entered city's name: %s, population: %s and country's id: %s\t", params[1], params[2], params[3]);
+    }
+
+    private void updateCity() {
+        System.out.println("Please, enter id of the city, you want to update: ");
+        System.out.println("Please, enter city new name: ");
+        params[1] = enterString();
+        System.out.println("Please, enter city new population: ");
+        params[2] = String.valueOf(enterNonNegativeNumber());
+        System.out.printf("You entered %s and %s\t", params[1], params[2]);
+    }
+
+    private void deleteCityById() {
+        System.out.println("Please, enter city id: ");
+        params[1] = String.valueOf(enterNonNegativeNumber());
+        System.out.println(params[1]);
+    }
+
+    private void runListOfOperations() {
+        params[1] = "4";
+        controller.handler(1);
+        System.out.println(params[0]);
+        System.out.println(DELIMITER);
+        System.out.println();
+        controller.handler(1);
+        System.out.println(params[0]);
+        System.out.println(DELIMITER);
+        System.out.println();
+        controller.handler(1);
+        System.out.println(params[0]);
+        System.out.println(DELIMITER);
+        System.out.println();
+        controller.handler(1);
+        System.out.println(params[0]);
+        System.out.println(DELIMITER);
+        System.out.println();
+        System.out.println("!!!Run get the same city 5-th time!!!");
+        controller.handler(1);
+        System.out.println(params[0]);
+        System.out.println(DELIMITER);
+        System.out.println();
+        System.out.println("!!!Run get the same city 6-th time!!!");
+        controller.handler(1);
+        System.out.println(params[0]);
+        System.out.println(DELIMITER);
+        System.out.println();
+        //controller.handler(0);
+        System.out.println(DELIMITER);
+        System.out.println();
+        params[1] = "Amsterdam";
+        controller.handler(2);
+        System.out.println(params[0]);
+        System.out.println(DELIMITER);
+        System.out.println();
+
+        params[1] = "Some city66";
+        params[2] = "40000";
+        params[3] = "5";
+        controller.handler(3);
+        System.out.println(params[0]);
+        System.out.println(DELIMITER);
+        System.out.println();
+
+        params[1] = "Some city44";
+        controller.handler(2);
+        System.out.println(params[0]);
+        System.out.println(DELIMITER);
+        System.out.println();
+
+        params[1] = "499";
+        controller.handler(4);
+        System.out.println(params[0]);
+        System.out.println(DELIMITER);
+        System.out.println();
+
+        params[1] = "500";
+        controller.handler(1);
+        System.out.println(params[0]);
+        System.out.println(DELIMITER);
+        System.out.println();
+
+        params[1] = "498";
+        controller.handler(5);
+        System.out.println(params[0]);
+        System.out.println(DELIMITER);
+        System.out.println();
+
+        params[1] = "4";
+        controller.handler(1);
+        System.out.println(params[0]);
+        System.out.println(DELIMITER);
+        System.out.println();
+
+    }
+
+
+
+private int chooseOperation() {
         int choose = 0;
         while(true) {
             System.out.println("Choose operation to perform: ");
@@ -70,7 +178,7 @@ public class TestView implements View {
     private int enterNonNegativeNumber() {
         int choose = 0;
         while(true) {
-            choose = Integer.valueOf(enterChoice());
+            choose = Integer.valueOf(enterString());
             if(choose >= 0) {
                 return choose;
             } else {
@@ -79,17 +187,12 @@ public class TestView implements View {
         }
     }
 
-    private String enterChoice() {
+    private String enterString() {
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
-    private void findCityById() {
-        System.out.println("Please, enter city id: ");
-        params[1] = String.valueOf(enterNonNegativeNumber());
-        System.out.println(params[1]);
-     }
 
-    private void printMenu() {
+private void printMenu() {
         StringBuilder menu = new StringBuilder();
         menu.append(DELIMITER)
                 .append(System.lineSeparator())
@@ -127,6 +230,11 @@ public class TestView implements View {
                 .append(CITY_DELETE_BY_ID.getTitle())
                 .append(System.lineSeparator())
 
+                .append(RUN_LIST_OF_OPERATIONS.ordinal())
+                .append(": ")
+                .append(RUN_LIST_OF_OPERATIONS.getTitle())
+                .append(System.lineSeparator())
+
                 .append(EXIT.ordinal())
                 .append(": ")
                 .append(EXIT)
@@ -134,6 +242,6 @@ public class TestView implements View {
 
                 .append(DELIMITER)
                 .append(System.lineSeparator());
-        System.out.println(menu.toString());
+        System.out.println(menu);
     }
 }
