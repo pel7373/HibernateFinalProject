@@ -28,15 +28,6 @@ public class CityCacheService {
         return INSTANCE;
     }
 
-    void cacheAddHandlerList(List<City> listCity) {
-        if(!cityCacheDAO.isCacheRunning()) {
-            System.out.println("Cache isn't available right now!");
-            return;
-        }
-        listCity.forEach(this::cacheAddHandler);
-        isPutToCacheAllCitiesAndDoesntChanged = true;
-    }
-
     void cacheAddHandler(City city) {
         addCounterRequestsCityById(city.getId());
 
@@ -78,7 +69,7 @@ public class CityCacheService {
         isPutToCacheAllCitiesAndDoesntChanged = false;
     }
 
-    CityCountry cacheGetById(Integer id) {
+    CityCountry getFromCacheById(Integer id) {
         CityCountry cityCountry = null;
         try {
             String value = cityCacheDAO.get(String.valueOf(id));
@@ -103,7 +94,7 @@ public class CityCacheService {
         return null;
     }
 
-    boolean isMustGetFromCache(Integer id) {
+    boolean isGetFromCache(Integer id) {
         if(!cityCacheDAO.isCacheRunning()) {
             System.out.println("Cache isn't available right now!");
             return false;
@@ -112,11 +103,25 @@ public class CityCacheService {
         System.out.println("!!! CityId: " + id + ": isMustGetFromCache: "
                 + (countRequestsCities.containsKey(id)
                 && countRequestsCities.get(id) >= NUMBER_OF_REQUEST_TO_PUT_TO_CACHE));
+
         if(countRequestsCities.containsKey(id)
-                && (countRequestsCities.get(id) >= NUMBER_OF_REQUEST_TO_PUT_TO_CACHE || isInCache.contains(id))) {
+                && (countRequestsCities.get(id) >= NUMBER_OF_REQUEST_TO_PUT_TO_CACHE
+                    || isInCache.contains(id))) {
             return true;
         }
         return false;
+    }
+
+    void putToCache(City city) {
+        addCounterRequestsCityById(city.getId());
+        if(isPutToCache(city.getId())) {
+            try {
+                cacheAdd(city);
+            } catch (JedisConnectionException e) {
+                System.out.println("Can't connect to cache redis!");
+            }
+        }
+
     }
 
     boolean isPutToCache(Integer id) {

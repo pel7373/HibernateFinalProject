@@ -6,13 +6,13 @@ import java.util.Scanner;
 
 import static com.javarush.controller.Operation.*;
 
-public class TestView implements View {
+public class TextView implements View {
 
     private static final String DELIMITER = "======================";
     private String[] params;
     private Controller controller;
 
-    public TestView(Controller controller, String[] params) {
+    public TextView(Controller controller, String[] params) {
         this.params = params;
         this.controller = controller;
     }

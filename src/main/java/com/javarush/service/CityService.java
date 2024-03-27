@@ -14,56 +14,30 @@ import java.util.stream.Collectors;
 public class CityService {
     private final CityDAO cityDAO = CityDAO.getInstance();
     CityCacheService cityCacheService = CityCacheService.getInstance();
-    static Map<String, Integer> mapperCityNameToId = new HashMap<>();
-    static Map<Integer, String> mapperCityIdToName = new HashMap<>();
-
-    static boolean isDBchanged = false;
 
     public List<CityCountry> getAll() {
-        if(cityCacheService.isMustGetAllFromCache()) {
-            return cityCacheService.cacheGetAll();
-        }
-
         List<City> listCity = cityDAO.findAll();
         List<CityCountry> listCitycountry = new ArrayList<>();
-        listCity.forEach(city -> {
-            listCitycountry.add(transformCityToCitycountry(city));
-            addMappersCityNameToIdAndViseVersa(city.getName(), city.getId());
-        });
-        cityCacheService.cacheAddHandlerList(listCity);
+        listCity.forEach(city -> listCitycountry.add(transformCityToCitycountry(city)));
         return listCitycountry;
+    }
+
+    public CityCountry getById(Integer id) {
+        if(cityCacheService.isGetFromCache(id)) {
+            return cityCacheService.getFromCacheById(id);
+        }
+        City city = getCityById(id);
+
+        cityCacheService.putToCache(city);
+
+        return transformCityToCitycountry(city);
     }
 
     public City getCityById(Integer id) {
         City city = cityDAO.findById(id)
                 .orElseThrow(() -> new CityNotFoundException(String.format("City with id %d not found", id)));
 
-        addMappersCityNameToIdAndViseVersa(city.getName(), city.getId());
-        cityCacheService.addCounterRequestsCityById(city.getId());
-        if(cityCacheService.isPutToCache(id)) {
-            try {
-                cityCacheService.cacheAdd(city);
-            } catch (JedisConnectionException e) {
-                System.out.println("Can't connect to cache redis!");
-            }
-        }
         return city;
-    }
-
-    public CityCountry getById(Integer id) {
-        if(cityCacheService.isMustGetFromCache(id)) {
-            try {
-                return cityCacheService.cacheGetById(id);
-            } catch (CityNotFoundInCacheException e) {
-                System.out.println(String.format("CityNotFoundInCacheException. City will be get from DB. id: %d", id));
-            }
-        }
-
-        try {
-            return transformCityToCitycountry(getCityById(id));
-        }  catch (CityNotFoundException e) {
-            throw new CityNotFoundException(e.getMessage());
-        }
     }
 
     public List<CityCountry> getByName(String name) throws CityNotFoundException {
@@ -122,22 +96,6 @@ public class CityService {
         }).collect(Collectors.toSet());
         res.setLanguages(languages);
         return res;
-    }
-
-    private void addMappersCityNameToIdAndViseVersa(String name, int id) {
-            mapperCityNameToId.put(name, id);
-            mapperCityIdToName.put(id, name);
-    }
-
-    private void removeFromMappersCityNameToIdAndViseVersa(String name) {
-        Integer id = null;
-        if(mapperCityNameToId.containsKey(name)) {
-            id = mapperCityNameToId.get(name);
-            mapperCityNameToId.remove(name);
-        }
-        if(mapperCityIdToName.containsKey(id)) {
-            mapperCityIdToName.remove(id);
-        }
     }
 
     static int getIdByName(String name) throws CityNotFoundException {
