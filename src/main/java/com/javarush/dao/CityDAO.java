@@ -6,16 +6,29 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Objects.nonNull;
+
 public class CityDAO implements CrudDAO<City, Integer> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            CityDAO.class);
     private final SessionFactory sessionFactory = SessionFactoryProvider.getSessionFactoryRelationalDb();
     private static final CityDAO INSTANCE = new CityDAO();
 
     private CityDAO() {
+    }
+
+    public void shutdown() {
+        if (nonNull(sessionFactory)) {
+            sessionFactory.close();
+            LOGGER.info("shutdown: sessionFactory closed");
+        }
     }
 
     @Override
@@ -35,6 +48,7 @@ public class CityDAO implements CrudDAO<City, Integer> {
         }
         session.getTransaction().commit();
         session.close();
+        LOGGER.info("findAll works successfully");
         return allCities;
     }
 
@@ -45,6 +59,7 @@ public class CityDAO implements CrudDAO<City, Integer> {
         query.setParameter("ID", id);
         Optional<City> city = query.uniqueResultOptional();
         session.close();
+        LOGGER.info(String.format("findById works successfully. id: %d", id));
         return city;
     }
 
@@ -54,6 +69,7 @@ public class CityDAO implements CrudDAO<City, Integer> {
         query.setParameter("NAME", name);
         List<City> list = query.getResultList();
         session.close();
+        LOGGER.info(String.format("findByName works successfully. name: %s", name));
         return list;
     }
 
@@ -65,6 +81,7 @@ public class CityDAO implements CrudDAO<City, Integer> {
         session.save(city);
         transaction.commit();
         session.close();
+        LOGGER.info(String.format("save works successfully. id: %d", city.getId()));
     }
 
     @Override
@@ -74,6 +91,7 @@ public class CityDAO implements CrudDAO<City, Integer> {
         session.saveOrUpdate(city);
         transaction.commit();
         session.close();
+        LOGGER.info(String.format("update works successfully. id: %d", city.getId()));
     }
 
     @Override
@@ -85,6 +103,7 @@ public class CityDAO implements CrudDAO<City, Integer> {
         query.executeUpdate();
         transaction.commit();
         session.close();
+        LOGGER.info(String.format("deleteById works successfully. id: %d", id));
     }
 
     public static CityDAO getInstance() {
