@@ -1,10 +1,7 @@
 package com.javarush.service;
 
-import com.javarush.dao.CityDAO;
 import com.javarush.dao.CountryDAO;
-import com.javarush.domain.City;
-import com.javarush.domain.Country;
-import com.javarush.exception.CityNotFoundException;
+import com.javarush.entity.Country;
 import com.javarush.exception.CountryNotFoundException;
 
 public class CountryService {

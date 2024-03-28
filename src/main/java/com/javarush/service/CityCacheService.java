@@ -3,7 +3,7 @@ package com.javarush.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javarush.dao.CityCacheDAO;
-import com.javarush.domain.City;
+import com.javarush.entity.City;
 import com.javarush.dto.CityCountry;
 import com.javarush.exception.CityNotFoundInCacheException;
 import org.slf4j.Logger;

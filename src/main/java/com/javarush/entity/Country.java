@@ -1,9 +1,8 @@
-package com.javarush.domain;
+package com.javarush.entity;
 
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity

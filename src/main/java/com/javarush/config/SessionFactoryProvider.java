@@ -1,8 +1,8 @@
 package com.javarush.config;
 
-import com.javarush.domain.City;
-import com.javarush.domain.Country;
-import com.javarush.domain.CountryLanguage;
+import com.javarush.entity.City;
+import com.javarush.entity.Country;
+import com.javarush.entity.CountryLanguage;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;

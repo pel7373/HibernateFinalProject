@@ -1,6 +1,6 @@
 package com.javarush.service;
 
-import com.javarush.domain.*;
+import com.javarush.entity.*;
 import com.javarush.dao.CityDAO;
 import com.javarush.dto.*;
 import com.javarush.exception.CityNotFoundException;

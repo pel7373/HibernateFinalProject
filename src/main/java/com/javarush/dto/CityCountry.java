@@ -1,7 +1,6 @@
 package com.javarush.dto;
 
-import com.javarush.domain.Continent;
-import com.javarush.dto.Language;
+import com.javarush.entity.Continent;
 
 import java.math.BigDecimal;
 import java.util.Set;

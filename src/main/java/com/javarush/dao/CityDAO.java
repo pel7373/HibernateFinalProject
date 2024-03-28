@@ -1,7 +1,7 @@
 package com.javarush.dao;
 
 import com.javarush.config.SessionFactoryProvider;
-import com.javarush.domain.City;
+import com.javarush.entity.City;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

@@ -22,8 +22,7 @@ public class TextView implements View {
         while(true) {
             this.printMenu();
             int choiceOperation = chooseOperation();
-            System.out.println(String.format("Your choice: %s", choiceOperation));
-
+            System.out.printf("Your choice: %s\n", choiceOperation);
             if(choiceOperation == CITY_FIND_BY_ID.ordinal()) {
                 findCityById();
             } else if(choiceOperation == CITY_FIND_BY_NAME.ordinal()) {

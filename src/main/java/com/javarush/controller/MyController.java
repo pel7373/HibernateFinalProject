@@ -1,8 +1,8 @@
 package com.javarush.controller;
 
-import com.javarush.domain.City;
-import com.javarush.domain.Country;
-import com.javarush.domain.CountryLanguage;
+import com.javarush.entity.City;
+import com.javarush.entity.Country;
+import com.javarush.entity.CountryLanguage;
 import com.javarush.dto.CityCountry;
 import com.javarush.exception.CityNotFoundException;
 import com.javarush.service.CityService;

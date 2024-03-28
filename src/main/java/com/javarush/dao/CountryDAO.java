@@ -1,13 +1,11 @@
 package com.javarush.dao;
 
 import com.javarush.config.SessionFactoryProvider;
-import com.javarush.domain.City;
-import com.javarush.domain.Country;
+import com.javarush.entity.Country;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

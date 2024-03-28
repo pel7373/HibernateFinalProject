@@ -1,4 +1,4 @@
-package com.javarush.domain;
+package com.javarush.entity;
 
 public enum Continent {
     ASIA,
