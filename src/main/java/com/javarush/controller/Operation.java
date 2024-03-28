@@ -12,7 +12,7 @@ public enum Operation {
     GET_ALL_CITIES_FROM_DB_AND_CACHE ("Test extraction of ALL cities from the database and cache"),
     EXIT ("Exit the application");
 
-    private String title;
+    private final String title;
 
     Operation(String title) {
         this.title = title;

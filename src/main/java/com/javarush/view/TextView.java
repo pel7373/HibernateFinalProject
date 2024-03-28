@@ -9,8 +9,8 @@ import static com.javarush.controller.Operation.*;
 public class TextView implements View {
 
     private static final String DELIMITER = "======================";
-    private String[] params;
-    private Controller controller;
+    private final String[] params;
+    private final Controller controller;
 
     public TextView(Controller controller, String[] params) {
         this.params = params;
@@ -24,12 +24,7 @@ public class TextView implements View {
             int choiceOperation = chooseOperation();
             System.out.println(String.format("Your choice: %s", choiceOperation));
 
-            if       (choiceOperation == GET_SOME_CITIES_FROM_DB_AND_CACHE.ordinal()) {
-
-            } else if(choiceOperation == CITY_FIND_ALL.ordinal()) {
-
-
-            } else if(choiceOperation == CITY_FIND_BY_ID.ordinal()) {
+            if(choiceOperation == CITY_FIND_BY_ID.ordinal()) {
                 findCityById();
             } else if(choiceOperation == CITY_FIND_BY_NAME.ordinal()) {
                 findCityByName();
@@ -169,7 +164,7 @@ public class TextView implements View {
     }
 
 private int chooseOperation() {
-        int choose = 0;
+        int choose;
         while(true) {
             System.out.println("Choose operation to perform: ");
             choose = enterNonNegativeNumber();
@@ -182,10 +177,10 @@ private int chooseOperation() {
     }
 
     private int enterNonNegativeNumber() {
-        int choose = 0;
+        int choose;
         while(true) {
             try {
-                choose = Integer.valueOf(enterString());
+                choose = Integer.parseInt(enterString());
             } catch (NumberFormatException e) {
                 System.out.println("We are very sorry, but the entered data is invalid. Please, enter non-negative number!");
                 continue;

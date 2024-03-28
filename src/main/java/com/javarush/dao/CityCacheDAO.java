@@ -13,7 +13,7 @@ public class CityCacheDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(
             CityCacheDAO.class);
     private static final CityCacheDAO INSTANCE = new CityCacheDAO();
-    private Jedis jedis = new Jedis(REDIS_URL, REDIS_PORT);
+    private final Jedis jedis = new Jedis(REDIS_URL, REDIS_PORT);
 
     private CityCacheDAO() {
     }

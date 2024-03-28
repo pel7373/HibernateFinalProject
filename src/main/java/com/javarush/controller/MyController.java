@@ -1,6 +1,5 @@
 package com.javarush.controller;
 
-import com.javarush.dao.CityDAO;
 import com.javarush.domain.City;
 import com.javarush.domain.Country;
 import com.javarush.domain.CountryLanguage;
@@ -22,7 +21,7 @@ public class MyController implements Controller {
     private static final Logger LOGGER = LoggerFactory.getLogger(
             MyController.class);
 
-    private String[] params;
+    private final String[] params;
     private static final String REPORT_HEADER = "###Report for user: ";
     CityService cityService = new CityService();
     CountryService countryService = new CountryService();
@@ -60,7 +59,7 @@ public class MyController implements Controller {
     }
 
     private List<CityCountry> getAllCities() {
-        System.out.printf("Perform: get all cities\n");
+        System.out.println("Perform: get all cities");
         LOGGER.info("Perform: get all cities");
         long startMysql = System.currentTimeMillis();
         try {
@@ -114,7 +113,7 @@ public class MyController implements Controller {
         city.setPopulation(Integer.valueOf(params[2]));
         Country country = countryService.getCountryById(Integer.valueOf(params[3]));
         city.setCountry(country);
-        city.setDistrict(String.format("District"));
+        city.setDistrict("District");
         System.out.printf("Perform: save the city. Name: %s, population: %d, country id: %d, country name: %s\n", city.getName(), city.getPopulation(), country.getId(), country.getName());
         LOGGER.info(String.format("Perform: save the city. Name: %s, population: %d, country id: %d, country name: %s", city.getName(), city.getPopulation(), country.getId(), country.getName()));
         try {

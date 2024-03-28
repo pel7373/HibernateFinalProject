@@ -3,7 +3,6 @@ package com.javarush.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javarush.dao.CityCacheDAO;
-import com.javarush.dao.CityDAO;
 import com.javarush.domain.City;
 import com.javarush.dto.CityCountry;
 import com.javarush.exception.CityNotFoundInCacheException;
@@ -75,7 +74,7 @@ public class CityCacheService {
     }
 
     CityCountry getFromCacheById(Integer id) {
-        CityCountry cityCountry = null;
+        CityCountry cityCountry;
         try {
             String value = cityCacheDAO.get(String.valueOf(id));
             cityCountry = mapper.readValue(value, CityCountry.class);
@@ -116,7 +115,7 @@ public class CityCacheService {
     }
 
     boolean isPutToCache(Integer id) {
-        LOGGER.info("!!! CityId: " + id + ": isPutToCache: "
+        LOGGER.info("CityId: " + id + ": isPutToCache: "
                 + (countRequestsCitiesById.containsKey(id)
                 && countRequestsCitiesById.get(id) >= NUMBER_OF_REQUEST_TO_PUT_TO_CACHE));
         if(countRequestsCitiesById.containsKey(id)
